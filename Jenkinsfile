@@ -29,7 +29,7 @@ pipeline {
             steps {
                 sh 'npm test -- --coverage'
             }
-        }
+         }
 
         stage('Build Docker Image') {
             steps {
