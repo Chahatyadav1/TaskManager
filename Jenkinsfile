@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = "taskmanager-app"
         CONTAINER_NAME = "taskmanager-container"
         ZAP_REPORT = "zap-report.html"
+        TRIVY_REPORT = "trivy-report.html"
     }
 
     stages {
@@ -24,7 +25,7 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                sh 'npm test'
+                sh 'npm test -- --coverage'
             }
         }
 
@@ -36,43 +37,67 @@ pipeline {
 
         stage('Trivy Scan') {
             steps {
-                sh 'trivy image $IMAGE_NAME:$BUILD_NUMBER || true'
+                sh """
+                trivy image \
+                --format html \
+                --output $TRIVY_REPORT \
+                $IMAGE_NAME:$BUILD_NUMBER
+                """
             }
         }
 
         stage('Run Application Container') {
             steps {
-                sh '''
+                sh """
                 docker run -d \
                 --name $CONTAINER_NAME \
                 -p 3000:3000 \
                 $IMAGE_NAME:$BUILD_NUMBER
                 sleep 15
-                '''
+                """
             }
         }
 
         stage('OWASP ZAP Baseline Scan') {
             steps {
-                sh '''
+                sh """
                 docker run --rm \
-                --network="host" \
-                -v $(pwd):/zap/wrk/:rw \
+                --network=host \
+                -v \$(pwd):/zap/wrk/:rw \
                 ghcr.io/zaproxy/zaproxy:stable \
                 zap-baseline.py \
                 -t http://localhost:3000 \
                 -r $ZAP_REPORT
-                '''
+                """
             }
         }
 
-        stage('Archive ZAP Report') {
+        stage('Publish Reports') {
             steps {
-                archiveArtifacts artifacts: "$ZAP_REPORT", allowEmptyArchive: true
+                publishHTML(target: [
+                    reportDir: '.',
+                    reportFiles: "$ZAP_REPORT",
+                    reportName: "OWASP ZAP Report"
+                ])
+
+                publishHTML(target: [
+                    reportDir: '.',
+                    reportFiles: "$TRIVY_REPORT",
+                    reportName: "Trivy Scan Report"
+                ])
+
+                archiveArtifacts artifacts: '*.html', allowEmptyArchive: true
             }
         }
     }
 
+    post {
+        always {
+            sh 'docker stop $CONTAINER_NAME || true'
+            sh 'docker rm $CONTAINER_NAME || true'
+        }
+    }
+}
     post {
         always {
             sh 'docker stop $CONTAINER_NAME || true'
