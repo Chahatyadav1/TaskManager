@@ -7,7 +7,9 @@ pipeline {
         ZAP_REPORT = "zap-report.html"
         TRIVY_REPORT = "trivy-report.html"
     }
-
+    tools {
+        nodejs 'nodejs-22-6-0'
+    }
     stages {
 
         stage('Checkout') {
