@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        PATH = "/usr/local/bin:${env.PATH}"
         IMAGE_NAME = "taskmanager-app"
         CONTAINER_NAME = "taskmanager-container"
         ZAP_REPORT = "zap-report.html"
