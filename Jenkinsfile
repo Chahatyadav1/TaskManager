@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH = "/usr/local/bin:${env.PATH}"
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
         MONGO_URI = "mongodb://root:root@localhost:27017/taskdb?authSource=admin"
         IMAGE_NAME = "chahatyadav1/taskmanager"
         CONTAINER_NAME = "taskmanager-container"
