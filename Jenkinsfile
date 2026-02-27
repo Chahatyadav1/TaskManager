@@ -8,7 +8,7 @@ pipeline {
         TRIVY_REPORT = "trivy-report.html"
     }
     tools {
-        nodejs 'nodejs-22-6-0'
+        nodejs 'nodejs-24-14-0'
     }
     stages {
 
