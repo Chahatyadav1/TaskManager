@@ -4,7 +4,7 @@ pipeline {
     environment {
         PATH = "/usr/local/bin:${env.PATH}"
         MONGO_URI = "mongodb://root:root@localhost:27017/taskdb?authSource=admin"
-        IMAGE_NAME = "taskmanager-app"
+        IMAGE_NAME = "chahatyadav1/taskmanager"
         CONTAINER_NAME = "taskmanager-container"
         ZAP_REPORT = "zap-report.html"
         TRIVY_REPORT = "trivy-report.html"
@@ -35,7 +35,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$BUILD_NUMBER .'
+                sh "docker build -t $IMAGE_NAME:$BUILD_NUMBER ."
             }
         }
 
@@ -49,7 +49,13 @@ pipeline {
                 """
             }
         }
-
+        stage("PUSH TO DOCKERHUB"){
+            steps{
+             withDockerRegistry(credentialsId: 'docker-token', url: 'https://index.docker.io/v1/') {
+                   docker push "$IMAGE_NAME:$BUILD_NUMBER"
+               }
+            }
+        }
         stage('Run Application Container') {
             steps {
                 sh """
