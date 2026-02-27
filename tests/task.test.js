@@ -1,10 +1,10 @@
 const request = require("supertest");
-const app = require("../src/app");
+const app = require("../app");
 
 describe("Task API", () => {
   it("should create a task", async () => {
     const res = await request(app)
-      .post("/tasks")
+      .post("/api/tasks")
       .send({ title: "Test Task" });
 
     expect(res.statusCode).toBe(201);
