@@ -106,7 +106,7 @@ pipeline {
             sh 'docker rm $CONTAINER_NAME || true'
         }
         success {
-            echo "Build + DevSecOps scan successful "
+            echo "Build and scan successful "
         }
         failure {
             echo "Pipeline failed "
