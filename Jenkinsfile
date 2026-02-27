@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         PATH = "/usr/local/bin:${env.PATH}"
+        MONGO_URI = "mongodb://localhost:27017/taskdb"
         IMAGE_NAME = "taskmanager-app"
         CONTAINER_NAME = "taskmanager-container"
         ZAP_REPORT = "zap-report.html"
