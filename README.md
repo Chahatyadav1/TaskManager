@@ -56,5 +56,6 @@ docker run -d \
   -e MONGO_INITDB_ROOT_USERNAME=root \
   -e MONGO_INITDB_ROOT_PASSWORD=root \
   -e MONGO_INITDB_DATABASE=taskdb \
+  --network app-network \
   mongo:6
 ```
