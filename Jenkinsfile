@@ -1,5 +1,26 @@
 pipeline {
-    agent any
+    agent {
+  kubernetes {
+    agentContainer 'busybox'
+    cloud 'kind'
+    defaultContainer 'busybox'
+    namespace 'jenkins'
+    yaml '''apiVersion: v1
+    kind: Pod
+    metadata:
+      labels: 
+        some-label: some-label-value
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command:
+        - sleep
+        args:
+        - 99d'''
+  }
+}
+
 
     environment {
         PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
