@@ -47,6 +47,7 @@ pipeline {
             }
             steps {
                 sh """
+                curl -L https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl -o html.tpl
                 trivy image \
                 --format template \
                 --template "@html.tpl" \
