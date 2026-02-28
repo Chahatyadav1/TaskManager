@@ -57,14 +57,14 @@ pipeline {
                 """
             }
         }
-        stage("PUSH TO DOCKERHUB"){
-            steps{
-             withDockerRegistry(credentialsId: 'docker-token', url: 'https://index.docker.io/v1/') {
-                  sh 'docker --version'
-                  sh "docker push ${IMAGE_NAME}:${BUILD_NUMBER}"
-               }
-            }
-        }
+      //  stage("PUSH TO DOCKERHUB"){
+     //    steps{
+     //        withDockerRegistry(credentialsId: 'docker-token', url: 'https://index.docker.io/v1/') {
+    //           sh 'docker --version'
+      //            sh "docker push ${IMAGE_NAME}:${BUILD_NUMBER}"
+        //       }
+          //  }
+       // }
         stage('Run Application Container') {
             steps {
                 sh """
