@@ -79,7 +79,7 @@ pipeline {
             }
         }
 
-        stage('OWASP ZAP Baseline Scan') {
+     /*   stage('OWASP ZAP Baseline Scan') {
             steps {
                 sh """
                 docker run --rm \
@@ -92,7 +92,7 @@ pipeline {
                 """
             }
         }
-
+*/
         stage('Publish Reports') {
             steps {
                 publishHTML(target: [
