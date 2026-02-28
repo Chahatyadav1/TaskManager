@@ -83,7 +83,7 @@ pipeline {
             steps {
                 sh """
                 docker run --rm \
-                --network=host \
+                --network=app-network \
                 -v \$(pwd):/zap/wrk/:rw \
                 ghcr.io/zaproxy/zaproxy:stable \
                 zap-baseline.py \
