@@ -45,7 +45,9 @@ pipeline {
                 trivy image \
                 --format template \
                 --template "@html.tpl" \
-                ${IMAGE_NAME}:${BUILD_NUMBER} > trivy-report.html
+                --report summary \
+                --output ${TRIVY_REPORT} \
+                ${IMAGE_NAME}:${BUILD_NUMBER} 
                 """
             }
         }
