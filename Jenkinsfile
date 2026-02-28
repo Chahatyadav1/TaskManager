@@ -40,6 +40,11 @@ pipeline {
         }
 
         stage('Trivy Scan') {
+            
+        environment {
+        DOCKER_CONFIG = "${WORKSPACE}/.docker"
+        TRIVY_NO_PROGRESS = "true"
+            }
             steps {
                 sh """
                 trivy image \
