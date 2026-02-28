@@ -43,7 +43,8 @@ pipeline {
             steps {
                 sh """
                 trivy image \
-                --format html \
+                --format template \
+                --template "@contrib/html.tpl" \
                 --output $TRIVY_REPORT \
                 $IMAGE_NAME:$BUILD_NUMBER
                 """
