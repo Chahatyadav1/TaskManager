@@ -44,7 +44,6 @@ pipeline {
                 sh """
                 trivy image \
                 --format template \
-                --skip-db-update \
                 --template "@html.tpl" \
                 --report summary \
                 --output ${TRIVY_REPORT} \
