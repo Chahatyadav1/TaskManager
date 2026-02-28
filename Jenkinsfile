@@ -71,6 +71,7 @@ pipeline {
                 docker run -d \
                 --name $CONTAINER_NAME \
                 -e MONGO_URI=${MONGO_URI} \
+                --network app-network \
                 -p 3000:3000 \
                 $IMAGE_NAME:$BUILD_NUMBER
                 sleep 15
