@@ -46,7 +46,7 @@ pipeline {
                 --format template \
                 --severity HIGH,CRITICAL \
                 --exit-code 1 \
-                --template "@contrib/html.tpl" \
+                --template "@html.tpl" \
                 --output ${TRIVY_REPORT} \
                 ${IMAGE_NAME}:${BUILD_NUMBER}
                 """
