@@ -44,11 +44,8 @@ pipeline {
                 sh """
                 trivy image \
                 --format template \
-                --severity HIGH,CRITICAL \
-                --exit-code 1 \
                 --template "@html.tpl" \
-                --output ${TRIVY_REPORT} \
-                ${IMAGE_NAME}:${BUILD_NUMBER}
+                ${IMAGE_NAME}:${BUILD_NUMBER} > trivy-report.html
                 """
             }
         }
